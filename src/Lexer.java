@@ -8,7 +8,6 @@
 public class Lexer {
 
 	private String expression;
-//	private String[] tokenizer;
 	private Queue<String> tokenizer;
 	
 	/**
@@ -50,8 +49,6 @@ public class Lexer {
 	 */
 	private void tokenize()
 	{
-//		int tokenIndex = 0;
-//		tokenizer = new String[expression.length()];
 		for(int i = 0; i < expression.length(); i++)
 		{
 			if (Alphabet.hasSymbol(expression.charAt(i)))
@@ -74,7 +71,9 @@ public class Lexer {
 					type = Grammar.ASSIGNMENT;
 					builder.append(expression.charAt(i));
 				}
-				else if (isLeftParen(expression.charAt(i)))
+				else if (isLeftParen(expression.charAt(i)) ||
+						 isRightParen(expression.charAt(i)) ||
+						 isOperator(expression.charAt(i)))
 				{
 					type = Grammar.OPERATOR;
 					builder.append(expression.charAt(i));
@@ -89,15 +88,9 @@ public class Lexer {
 					}
 					i--; // Calibrate
 				}
-				else if (isRightParen(expression.charAt(i)))
+				else 
 				{
-					type = Grammar.OPERATOR;
-					builder.append(expression.charAt(i));
-				}
-				else if (isOperator(expression.charAt(i)))
-				{
-					type = Grammar.OPERATOR;
-					builder.append(expression.charAt(i));
+					System.out.println("The symbol '" + expression.charAt(i) + "' has not yet been implemented.");
 				}
 				Node<String> token = new Node<String>(type, builder.toString());
 				tokenizer.enqueue(token);

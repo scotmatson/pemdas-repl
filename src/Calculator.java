@@ -37,12 +37,14 @@ public class Calculator {
 		Postfixer postfixer = new Postfixer(lexer.getTokens());
 		
 		Queue<String> postfixTest = postfixer.getPostfixed();	
-		System.out.println("Reading postfixed notation");
-		while (!postfixTest.isEmpty())
-		{
-			Node<String> currentNode = postfixTest.dequeue();
-			System.out.print(currentNode.getValue());
-		}
+//		System.out.println("Reading postfixed notation");
+//		while (!postfixTest.isEmpty())
+//		{
+//			Node<String> currentNode = postfixTest.dequeue();
+//			System.out.print(currentNode.getValue());
+//		}
+//		System.out.println("Passing to the parser");
+		Parser parser = new Parser(postfixTest);
 		// TODO: Pass postfixedQueue into a TreeBuilder
 		// TODO: A tree needs to be created and parsed, TreeBuilder & TreeParser? TreeBuilder should be able to handle postfixing
 		// TODO: Something needs to perform the mathematical operations
