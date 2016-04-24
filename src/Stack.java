@@ -1,7 +1,7 @@
 
 public class Stack<T> 
 {
-	Node<T> top;
+	private Node<T> top;
 	
 	/**
 	 * Constructor Method
@@ -48,11 +48,20 @@ public class Stack<T>
 		return null;
 	}
 	
-	public T peek()
+	public T peekValue()
 	{
 		if (!isEmpty())
 		{
 			return top.getValue();
+		}
+		return null;
+	}
+	
+	public Grammar peekType()
+	{
+		if (!isEmpty())
+		{
+			return top.getType();
 		}
 		return null;
 	}

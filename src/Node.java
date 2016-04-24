@@ -3,20 +3,25 @@ public class Node<T>
 {
 	private Node<T> previous;
 	private Node<T> next;
-	Grammar G;
+	Grammar type;
 	private T value;
 	
-	public Node(Grammar G, T value)
+	public Node(Grammar type, T value)
 	{
-		this.G = G;
+		this.type = type;
 		this.value = value;
-		this.previous = null;
-		this.next = null;
+		this.previous = null; // Left  for tree
+		this.next = null;     // Right for tree
 	}
 	
 	public T getValue()
 	{
 		return this.value;
+	}
+	
+	public Grammar getType()
+	{
+		return this.type;
 	}
 	
 	public Node<T> getPrevious()

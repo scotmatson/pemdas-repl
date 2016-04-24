@@ -60,11 +60,20 @@ public class Queue<T>
 		return null;
 	}
 	
-	public T peek()
+	public T peekValue()
 	{
 		if (!isEmpty())
 		{
 			return first.getValue();
+		}
+		return null;
+	}
+	
+	public Grammar peekType()
+	{
+		if (!isEmpty())
+		{
+			return first.getType();
 		}
 		return null;
 	}
