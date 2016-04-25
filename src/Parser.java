@@ -1,40 +1,56 @@
 
 public class Parser
 {
-	Language language;
 	Queue<String> tokens;
-	Stack<String> treeBuilder; // I think we need a new data structure here
+	Stack<String> treeBuilder;
 	
-	public Parser(Queue tokens)
+	public Parser(Queue<String> tokens)
 	{
-		this.language = new Language();
 		this.tokens = tokens;
-		
-		while (!tokens.isEmpty())
-		{
-			System.out.print(tokens.dequeue().getValue());
-		}
+		treeBuilder = new Stack<String>();
+		buildTree();
 	}
-	
-	
 	
 	public void buildTree()
 	{
-		while (!tokens.isEmpty()) {
-			
-			// If we have an operator, just toss it on the stack
+		while (!tokens.isEmpty())
+		{
 			if (tokens.peekType() == Grammar.OPERAND)
 			{
-				treeBuilder.push(tokens.dequeue());
+				Node<String> token = tokens.dequeue();
+				token.setNext(null);
+				token.setPrevious(null);
+				System.out.println("Push to Stack: " + token.getValue());
+				treeBuilder.push(token);
 			}
-			// If we have an operand, we need to package an expression and then put it back on the stack
 			else if (tokens.peekType() == Grammar.OPERATOR)
 			{
-				// This is where a tree structure would be important.
-				// How do we point both both nodes to the parent
-				// So stack will only manipulate 'previous', we can explicitly create
-				// an association with next right here, despite that being somewhat of a hack
+				Node<String> token = tokens.dequeue();
+				token.setNext(null);
+				token.setPrevious(null);
+				buildTree(token);
 			}
 		}
+	}
+	
+	public void buildTree(Node<String> token)
+	{
+		// Remember * [previous = left] [next = right]
+		Node<String> op1 = treeBuilder.pop();
+		Node<String> op2 = treeBuilder.pop();
+		System.out.println("op1: " + op1.getValue());
+		System.out.println("op2: " + op2.getValue());
+		token.setPrevious(op1);
+		token.setNext(op2);
+		token.setType(Grammar.EXPRESSION);
+		System.out.println("Expression on stack: " + token.getValue());
+		treeBuilder.push(token);
+		// The stack is overriding this.. you are going to need to make
+		// a tree data structure - for reals
+	}
+	
+	public Node<String> getParseTree()
+	{
+		return treeBuilder.pop();
 	}
 }

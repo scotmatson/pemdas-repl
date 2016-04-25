@@ -1,6 +1,12 @@
 
 public class SyntaxTree 
 {
+	// Root is technically just the top of the stack.
+	// Since we have referencing to nodes through the root,
+	// all we need to do is return the top and we should have 
+	// the entire tree available
+	
+	// These names no longer work and just look stupid
 	private Node<String> root; // Root is always an operator
 	private Stack<String> fertilizer; // Stores building materials
 	
@@ -37,24 +43,20 @@ public class SyntaxTree
 	
 	/**
 	 * Builds the tree
+	 * I think we can just do this inside the parse class
+	 * this answer is operand[exp] operand[exp] operator, the sequence will always be the same
 	 * @param food
 	 */
-	public void growTree(Node<String> food)
+	private void growTree(Node<String> food)
 	{
-		if (this.root != null)
-		{
-			// This part will be a bit harder.
-			// Remember * [previous = left] [next = right]
-			
-		}
-		else
-		{
-			plantTree(food);
-		}		
-	}
-	
-	private void plantTree(Node<String> seed)
-	{
-		this.root = seed;
+		// Remember * [previous = left] [next = right]
+		// I don't think we need to worry about the root node,
+		// this should just build itself out naturally, the final node will be the root
+		Node<String> op1 = fertilizer.pop();
+		Node<String> op2 = fertilizer.pop();
+		root.setPrevious(op1);
+		root.setNext(op2);
+		root.setType(Grammar.EXPRESSION);
+		fertilizer.push(root);
 	}
 }

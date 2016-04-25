@@ -24,6 +24,11 @@ public class Node<T>
 		return this.type;
 	}
 	
+	public void setType(Grammar type)
+	{
+		this.type = type;
+	}
+	
 	public Node<T> getPrevious()
 	{
 		return previous;
