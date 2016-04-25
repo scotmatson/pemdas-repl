@@ -4,19 +4,76 @@ public class Calculator {
 
 	public static void main(String[] args) {
 		
-		// Initialization
-		Scanner in = new Scanner(System.in);
+		// TODO: Help Menu
+		// TODO: Support stored values
+		// TODO: Support doubles
+		// TODO: Error checking
 		
-		String expression = "";
-		// Receive Input
+		System.out.println("******************************");
+		System.out.println("*       REPL Calculator      *");
+		System.out.println("*            By              *");
+		System.out.println("*        Scot Matson         *");
+		System.out.println("*                            *");
+		System.out.println("*       Version: 0.00        *");
+		System.out.println("*       Alpha Release        *");
+		System.out.println("*            ---             *");
+		System.out.println("*       Copyright 2016       *");
+		System.out.println("*                            *");
+		System.out.println("******************************");
 		
-		while (expression != "q" || expression != "Q")
+		new Calculator().run();
+		System.out.println("Application terminated unexpectedly.");
+	}
+	
+	public void run()
+	{
+		while (true) 
 		{
-			expression = in.nextLine();
-			// 53+123/*
-			
-			System.out.println("Expression: " + expression);
-			
+			System.out.println("Please select an option from the menu below:");
+			System.out.println("1: Launch Calculator");
+			System.out.println("2: Help Menu");
+			System.out.println("3: Exit");
+
+			System.out.print(">> ");
+			Scanner in = new Scanner(System.in);
+			switch(in.nextLine())
+			{
+				case "1":
+					launchCalculator(in);
+					break;
+				case "2":
+					printHelp();
+					break;
+				case "3":
+					exitApplication(in);
+				default:
+					System.out.println("WARNING: Unknown input received.\n");
+			}
+		}		
+	} // End menu
+	
+	public void launchCalculator(Scanner in)
+	{
+		System.out.println("Launching REPL Calculator");
+		System.out.println("At any time, input (M)enu to return to the main menu, or (Q)uit to quit");
+		while (true)
+		{						
+			System.out.print(">> ");
+			String expression = in.nextLine();
+			if (expression.compareTo("M") ==0 ||
+				expression.compareTo("m") ==0 ||
+				expression.compareTo("Menu") ==0 ||
+				expression.compareTo("menu")==0)
+			{
+				return;
+			}
+			else if (expression.compareTo("Q") ==0 ||
+					 expression.compareTo("q") ==0 ||
+					 expression.compareTo("Quit") ==0 ||
+					 expression.compareTo("quit") ==0)
+			{
+				exitApplication(in);
+			}
 			// Token analysis
 			Lexer lexer = new Lexer();
 			lexer.setParsable(expression);
@@ -33,14 +90,17 @@ public class Calculator {
 			Evaluator evaluator = new Evaluator(root);
 			System.out.println(evaluator.getResult());
 		}
-		
-		
-		// TODO: Help menu
-		// TODO: Exceptions.... so many exceptions
-		// TODO: It would be helpful to refactor into packages
-		// TODO: Unit Testing would be a good idea
-		
+	} // End launchCalculator
+	
+	public void printHelp()
+	{
+		System.out.println("-- Help --");
+	} // End printHelp
+	
+	public void exitApplication(Scanner in)
+	{
 		in.close();
 		System.out.println("\nProgram terminated successfully.");
+		System.exit(1);
 	}
 }
