@@ -48,20 +48,11 @@ public class Stack<T>
 		return null;
 	}
 	
-	public T peekValue()
+	public Node<T> peek()
 	{
 		if (!isEmpty())
 		{
-			return top.getValue();
-		}
-		return null;
-	}
-	
-	public Grammar peekType()
-	{
-		if (!isEmpty())
-		{
-			return top.getType();
+			return top;
 		}
 		return null;
 	}

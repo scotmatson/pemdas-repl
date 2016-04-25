@@ -15,19 +15,19 @@ public class Parser
 	{
 		while (!tokens.isEmpty())
 		{
-			if (tokens.peekType() == Grammar.OPERAND)
+			if (tokens.peek().getType() == Grammar.OPERAND)
 			{
 				Node<String> token = tokens.dequeue();
-				token.setNext(null);
-				token.setPrevious(null);
-				System.out.println("Push to Stack: " + token.getValue());
+				//token.setNext(null);
+				//token.setPrevious(null);
+				//System.out.println("Push to Stack: " + token.getValue());
 				treeBuilder.push(token);
 			}
-			else if (tokens.peekType() == Grammar.OPERATOR)
+			else if (tokens.peek().getType() == Grammar.OPERATOR)
 			{
 				Node<String> token = tokens.dequeue();
-				token.setNext(null);
-				token.setPrevious(null);
+				//token.setNext(null);
+				//token.setPrevious(null);
 				buildTree(token);
 			}
 		}
@@ -38,12 +38,12 @@ public class Parser
 		// Remember * [previous = left] [next = right]
 		Node<String> op1 = treeBuilder.pop();
 		Node<String> op2 = treeBuilder.pop();
-		System.out.println("op1: " + op1.getValue());
-		System.out.println("op2: " + op2.getValue());
-		token.setPrevious(op1);
-		token.setNext(op2);
+		//System.out.println("op1: " + op1.getValue());
+		//System.out.println("op2: " + op2.getValue());
+		token.setLeft(op1);
+		token.setRight(op2);
 		token.setType(Grammar.EXPRESSION);
-		System.out.println("Expression on stack: " + token.getValue());
+		//System.out.println("Expression on stack: " + token.getValue());
 		treeBuilder.push(token);
 		// The stack is overriding this.. you are going to need to make
 		// a tree data structure - for reals

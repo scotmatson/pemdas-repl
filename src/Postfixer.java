@@ -27,16 +27,16 @@ public class Postfixer
 		while (!tokens.isEmpty())
 		{
 			// If token is a number add it to the operands queue
-			if (lexer.isOperand(tokens.peekValue()))
+			if (lexer.isOperand(tokens.peek().getValue()))
 			{
 				output.enqueue(tokens.dequeue());
 			}
 			// If there is an operator o1
-			else if (lexer.isOperator(tokens.peekValue()))
+			else if (lexer.isOperator(tokens.peek().getValue()))
 			{
 				// While there is an operator o2 on the stack (left associativity)
 				while (!operators.isEmpty() && 
-					   lexer.getPrescedence(tokens.peekValue()) <= lexer.getPrescedence(operators.peekValue()))
+					   lexer.getPrescedence(tokens.peek().getValue()) <= lexer.getPrescedence(operators.peek().getValue()))
 				{
 					// Move the higher order operator to the output queue
 					output.enqueue(operators.pop());
@@ -45,17 +45,17 @@ public class Postfixer
 				operators.push(tokens.dequeue());
 			}
 			// If token is left paren, push it onto the stack
-			else if(lexer.isLeftParen(tokens.peekValue()))
+			else if(lexer.isLeftParen(tokens.peek().getValue()))
 			{
 				operators.push(tokens.dequeue());
 			}
 			// If token is a right parenthesis....
-			else if(lexer.isRightParen(tokens.peekValue()))
+			else if(lexer.isRightParen(tokens.peek().getValue()))
 			{
 				// Discard the right parenthesis
 				tokens.dequeue();
 				// Until top of operator stack is the left parenthesis, pop operators onto operands
-				while (!operators.isEmpty() && !lexer.isLeftParen(operators.peekValue()))
+				while (!operators.isEmpty() && !lexer.isLeftParen(operators.peek().getValue()))
 				{
 
 					output.enqueue(operators.pop());
