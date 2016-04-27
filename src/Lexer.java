@@ -81,7 +81,8 @@ public class Lexer {
 				else if (Character.isDigit(expression.charAt(i)))
 				{
 					type = Grammar.OPERAND;
-					while (i < expression.length() && Character.isDigit(expression.charAt(i)))
+					while (i < expression.length() && Character.isDigit(expression.charAt(i)) ||
+						   i < expression.length() && isDecimal(expression.charAt(i)))
 					{
 						builder.append(expression.charAt(i));
 						i++;
@@ -196,6 +197,20 @@ public class Lexer {
 	 * @param symbol
 	 * @return
 	 */
+	public boolean isDecimal(char symbol)
+	{
+		if (symbol == '.')
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @param symbol
+	 * @return
+	 */
 	public boolean isOperator(String symbol)
 	{
 		if (symbol != null && symbol.length() == 1) {
@@ -233,28 +248,11 @@ public class Lexer {
 		return false;
 	}
 	
-	public int getPrescedence(char symbol)
-	{
-		switch (symbol)
-		{
-//			case '(':
-//				return Pemdas.LEFT_PAREN.getPrescedenceValue();
-//			case ')':
-//				return Pemdas.RIGHT_PAREN.getPrescedenceValue();
-			case '^':
-				return Pemdas.EXPONENT.getPrescedenceValue();
-			case '*':
-				return Pemdas.MULTIPLY.getPrescedenceValue();
-			case '/':
-				return Pemdas.DIVIDE.getPrescedenceValue();
-			case '+':
-				return Pemdas.ADD.getPrescedenceValue();
-			case '-':
-				return Pemdas.SUBTRACT.getPrescedenceValue();
-		}
-		return -1;
-	}
-	
+	/**
+	 * 
+	 * @param symbol
+	 * @return
+	 */
 	public int getPrescedence(String symbol)
 	{
 		if (symbol != null && symbol.length() == 1)

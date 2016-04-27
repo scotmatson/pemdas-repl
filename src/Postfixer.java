@@ -22,47 +22,51 @@ public class Postfixer
 		processTokens();
 	}
 	
-	public void processTokens()
+	private void processTokens()
 	{
 		while (!tokens.isEmpty())
 		{
-			// If token is a number add it to the operands queue
-			if (lexer.isOperand(tokens.peek().getValue()))
+			if (tokens.peek().getType() == Grammar.OPERAND ||
+				tokens.peek().getType() == Grammar.IDENTIFIER ||
+				tokens.peek().getType() == Grammar.ASSIGNMENT) // Right place for this?
 			{
 				output.enqueue(tokens.dequeue());
 			}
 			// If there is an operator o1
-			else if (lexer.isOperator(tokens.peek().getValue()))
+			else if (tokens.peek().getType() == Grammar.OPERATOR)
 			{
-				// While there is an operator o2 on the stack (left associativity)
-				while (!operators.isEmpty() && 
-					   lexer.getPrescedence(tokens.peek().getValue()) <= lexer.getPrescedence(operators.peek().getValue()))
+				// If token is left parenthesis, push it onto the stack
+				if(lexer.isLeftParen(tokens.peek().getValue()))
 				{
-					// Move the higher order operator to the output queue
-					output.enqueue(operators.pop());
+					operators.push(tokens.dequeue());
 				}
-				// Push new operator onto operator stack
-				operators.push(tokens.dequeue());
-			}
-			// If token is left paren, push it onto the stack
-			else if(lexer.isLeftParen(tokens.peek().getValue()))
-			{
-				operators.push(tokens.dequeue());
-			}
-			// If token is a right parenthesis....
-			else if(lexer.isRightParen(tokens.peek().getValue()))
-			{
-				// Discard the right parenthesis
-				tokens.dequeue();
-				// Until top of operator stack is the left parenthesis, pop operators onto operands
-				while (!operators.isEmpty() && !lexer.isLeftParen(operators.peek().getValue()))
+				// If token is a right parenthesis...
+				else if(lexer.isRightParen(tokens.peek().getValue()))
 				{
+					// Discard the right parenthesis
+					tokens.dequeue();
+					// Until top of operator stack is the left parenthesis, pop operators onto operands
+					while (!operators.isEmpty() && !lexer.isLeftParen(operators.peek().getValue()))
+					{
 
-					output.enqueue(operators.pop());
-					// Throws MismatchedParenthesisError
+						output.enqueue(operators.pop());
+						// TODO: Throws MismatchedParenthesisError
+					}
+					// Discard the left parenthesis
+					operators.pop();
 				}
-				// Discard the left parenthesis
-				operators.pop();
+				else
+				{
+					// While there is an operator o2 on the stack (left associativity)
+					while (!operators.isEmpty() && 
+						   lexer.getPrescedence(tokens.peek().getValue()) <= lexer.getPrescedence(operators.peek().getValue()))
+					{
+						// Move the higher order operator to the output queue
+						output.enqueue(operators.pop());
+					}
+					// Push new operator onto operator stack
+					operators.push(tokens.dequeue());
+				}
 			}
 		}
 		

@@ -5,7 +5,6 @@
  */
 public enum Grammar {
 	ASSIGNMENT,
-	EXPRESSION,
 	IDENTIFIER,
 	OPERAND,
 	OPERATOR

@@ -1,56 +1,89 @@
-
+/**
+ * 
+ * @author Scot
+ *
+ */
 public class Parser
 {
-	Queue<String> tokens;
-	Stack<String> treeBuilder;
+	private Queue<String> tokens;
+	private Stack<String> treeBuilder;
+	private String storeKey;
 	
+	/**
+	 * 
+	 * @param tokens
+	 */
 	public Parser(Queue<String> tokens)
 	{
 		this.tokens = tokens;
+		storeKey = null;
 		treeBuilder = new Stack<String>();
 		buildTree();
 	}
 	
+	/**
+	 * 
+	 */
 	public void buildTree()
 	{
 		while (!tokens.isEmpty())
 		{
-			if (tokens.peek().getType() == Grammar.OPERAND)
+			if (tokens.peek().getType() == Grammar.OPERAND ||
+				tokens.peek().getType() == Grammar.IDENTIFIER)
 			{
 				Node<String> token = tokens.dequeue();
-				//token.setNext(null);
-				//token.setPrevious(null);
-				//System.out.println("Push to Stack: " + token.getValue());
 				treeBuilder.push(token);
 			}
 			else if (tokens.peek().getType() == Grammar.OPERATOR)
 			{
 				Node<String> token = tokens.dequeue();
-				//token.setNext(null);
-				//token.setPrevious(null);
 				buildTree(token);
+			}
+			else if (tokens.peek().getType() == Grammar.ASSIGNMENT)
+			{
+				// Burn the assignment operator
+				tokens.dequeue();
+				// Take the IDENTIFER for a key
+				// Make sure this is in fact the first element on the stack
+				if (treeBuilder.peek().getPrevious() == null)
+				{
+					storeKey = treeBuilder.pop().getValue();
+				}
 			}
 		}
 	}
 	
+	/**
+	 * 
+	 * @param token
+	 */
 	public void buildTree(Node<String> token)
 	{
-		// Remember * [previous = left] [next = right]
 		Node<String> op1 = treeBuilder.pop();
+		System.out.println(op1);
 		Node<String> op2 = treeBuilder.pop();
-		//System.out.println("op1: " + op1.getValue());
-		//System.out.println("op2: " + op2.getValue());
+		System.out.println(op2);
 		token.setLeft(op1);
 		token.setRight(op2);
-		token.setType(Grammar.EXPRESSION);
-		//System.out.println("Expression on stack: " + token.getValue());
 		treeBuilder.push(token);
-		// The stack is overriding this.. you are going to need to make
-		// a tree data structure - for reals
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Node<String> getParseTree()
 	{
 		return treeBuilder.pop();
+	}
+	
+	public String getStoreKey()
+	{
+		return storeKey;
+	}
+	
+	public void resetStoreKey()
+	{
+		storeKey = null;
 	}
 }

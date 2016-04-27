@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Calculator {
@@ -5,9 +6,9 @@ public class Calculator {
 	public static void main(String[] args) {
 		
 		// TODO: Help Menu
-		// TODO: Support stored values
-		// TODO: Support doubles
-		// TODO: Error checking
+		// TODO: Error checking.... so much error checking
+		// ERROR: x = 3
+		// Divide by zero is weird, returns MAXINT
 		
 		System.out.println("******************************");
 		System.out.println("*       REPL Calculator      *");
@@ -56,21 +57,23 @@ public class Calculator {
 	{
 		System.out.println("Launching REPL Calculator");
 		System.out.println("At any time, input (M)enu to return to the main menu, or (Q)uit to quit");
+		
+		HashMap<String, Double> storage = new HashMap<String, Double>();
 		while (true)
 		{						
 			System.out.print(">> ");
 			String expression = in.nextLine();
-			if (expression.compareTo("M") ==0 ||
-				expression.compareTo("m") ==0 ||
-				expression.compareTo("Menu") ==0 ||
-				expression.compareTo("menu")==0)
+			if (expression.compareTo("M") == 0 ||
+				expression.compareTo("m") == 0 ||
+				expression.compareTo("Menu") == 0 ||
+				expression.compareTo("menu")== 0)
 			{
 				return;
 			}
-			else if (expression.compareTo("Q") ==0 ||
-					 expression.compareTo("q") ==0 ||
-					 expression.compareTo("Quit") ==0 ||
-					 expression.compareTo("quit") ==0)
+			else if (expression.compareTo("Q") == 0 ||
+					 expression.compareTo("q") == 0 ||
+					 expression.compareTo("Quit") == 0 ||
+					 expression.compareTo("quit") == 0)
 			{
 				exitApplication(in);
 			}
@@ -78,17 +81,37 @@ public class Calculator {
 			Lexer lexer = new Lexer();
 			lexer.setParsable(expression);
 			
-			// Parseable format
+			// Post-fix conversion
 			Postfixer postfixer = new Postfixer(lexer.getTokens());
 			Queue<String> postfixExpression = postfixer.getPostfixed();
-				
-			// Tree structure
+
+			// Tree building
 			Parser parser = new Parser(postfixExpression);
-			Node<String> root = parser.getParseTree();	
-			
+			Node<String> root = parser.getParseTree();
+
 			// Evaluation
-			Evaluator evaluator = new Evaluator(root);
-			System.out.println(evaluator.getResult());
+			System.out.println("Prepare to be evaluated!");
+			Evaluator evaluator = new Evaluator(root, storage);
+			double solution;
+			if (parser.getStoreKey() != null)
+			{
+				System.out.println("I'm storing the expression!");
+				storage.put(parser.getStoreKey(), evaluator.getResult());
+				solution = storage.get(parser.getStoreKey());
+				parser.resetStoreKey();
+			}
+			else
+			{
+				solution = evaluator.getResult();
+			}						
+			if (solution == java.lang.Math.floor(solution))
+			{
+				System.out.println((int) solution);
+			}
+			else
+			{
+				System.out.println(solution);
+			}
 		}
 	} // End launchCalculator
 	
