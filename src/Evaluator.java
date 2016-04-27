@@ -1,5 +1,20 @@
 import java.util.HashMap;
 
+/**
+ * Evaluates an arithmetic expression
+ * 
+ * <p>
+ * The Evaluator class evaluates mathematical expressions and
+ * stores the results in a locally defined class variable which
+ * may explicitly be returned upon request. In this current
+ * implementation, the expression must have been structured as
+ * a syntax tree in order to be properly evaluated. 
+ * 
+ * @author Scot Matson
+ * @version 0.00 Alpha
+ * @since 04/27/2016
+ *
+ */
 public class Evaluator {
 
 	HashMap<String, Double> storage;
@@ -8,6 +23,12 @@ public class Evaluator {
 	Node<String> lastVisited;
 	Double result;
 	
+	/**
+	 * Constructor method.
+	 * 
+	 * @param parseTree The root node of a Syntax Tree
+	 * @param storage Stored variables with associated values
+	 */
 	public Evaluator(Node<String> parseTree, HashMap<String, Double> storage)
 	{
 		this.storage = storage;
@@ -16,10 +37,17 @@ public class Evaluator {
 		computeExpression(node);
 	}
 	
+	/**
+	 * Computers an arithmetic expression using recursion
+	 * 
+	 * @param node The current node being evaluated
+	 * @return the solution to the expression currently being evaluated
+	 */
 	public Double computeExpression(Node<String> node)
 	{
-		
-		if (node.getLeft() == null && node.getRight() == null)	// We have a leaf node
+		// Base case: leaf nodes, from here we may return from our
+		// recursion
+		if (node.getLeft() == null && node.getRight() == null)
 		{
 			if (node.getType() == Grammar.IDENTIFIER)
 			{
@@ -33,6 +61,7 @@ public class Evaluator {
 			return Double.parseDouble(node.getValue());
 		}
 		
+		// At this step we are isolating the values to be evaluated
 		Double right = computeExpression(node.getLeft());
 		Double left = computeExpression(node.getRight());
 		switch(node.getValue())
@@ -57,10 +86,12 @@ public class Evaluator {
 	}
 	
 	
-	
+	/**
+	 * Gets the result of the expression
+	 * @return The solution to the expression
+	 */
 	public Double getResult()
 	{
 		return this.result;
 	}
-	
 }

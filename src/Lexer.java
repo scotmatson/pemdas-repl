@@ -1,8 +1,14 @@
-//import java.util.Arrays;
-
 /**
+ * Tokenizes a mathematical expression
+ * 
+ * <p>
+ * Using the Alphabet, the lexer class accepts string input
+ * from a user and evaluates each symbol in efforts to understand
+ * the meaning of its constituents.
  * 
  * @author Scot Matson
+ * @version 0.00 Alpha
+ * @since 04/27/2016
  *
  */
 public class Lexer {
@@ -19,16 +25,7 @@ public class Lexer {
 	}
 	
 	/**
-	 * Constructor method
-	 * @param a String
-	 */
-	Lexer (String expression) {
-		this.expression = expression.trim();
-		tokenize();
-	}
-	
-	/**
-	 * Sets value to be parsed
+	 * Assigns an expression to the lexer to be tokenized
 	 * @param parsableInput
 	 */
 	public void setParsable(String expression)
@@ -37,15 +34,18 @@ public class Lexer {
 		tokenize();
 	}
 	
+	/**
+	 * Returns a tokenized version of the String expression
+	 * @return A tokenized expression
+	 */
 	public Queue<String> getTokens()
 	{
 		return tokenizer;
 	}
 	
 	/**
-	 * Transforms parsable string into Queue
-	 *   These nodes will be the building blocks for everything else
-	 * and strips out invalid symbols.
+	 * Tokenizes valid symbols, ignores whitespace, and
+	 * notifies user of symbols unrecognized by the Alphabet
 	 */
 	private void tokenize()
 	{
@@ -100,9 +100,10 @@ public class Lexer {
 	}
 	
 	/**
+	 * Evaluates if a symbol is a left parenthesis
 	 * 
-	 * @param symbol
-	 * @return
+	 * @param symbol A String symbol
+	 * @return True if the symbol is a left parenthesis
 	 */
 	public boolean isLeftParen(String symbol)
 	{
@@ -117,9 +118,10 @@ public class Lexer {
 	}
 	
 	/**
+	 * Evaluates if a symbol is a left parenthesis
 	 * 
-	 * @param symbol
-	 * @return
+	 * @param symbol A char symbol
+	 * @return True if the symbol is a parenthesis
 	 */
 	public boolean isLeftParen(char symbol)
 	{
@@ -131,9 +133,10 @@ public class Lexer {
 	}
 	
 	/**
+	 * Evaluates if a symbol is a right parenthesis
 	 * 
-	 * @param symbol
-	 * @return
+	 * @param symbol A String symbol
+	 * @return True if the symbol is a right parenthesis
 	 */
 	public boolean isRightParen(String symbol)
 	{
@@ -148,9 +151,10 @@ public class Lexer {
 	}
 	
 	/**
+	 * Evaluates if a symbol is a right parenthesis
 	 * 
-	 * @param symbol
-	 * @return
+	 * @param symbol A char symbol
+	 * @return True if the symbol is a right parenthesis
 	 */
 	public boolean isRightParen(char symbol)
 	{
@@ -162,9 +166,10 @@ public class Lexer {
 	}
 	
 	/**
+	 * Evaluates if a symbol is an assignment operator
 	 * 
-	 * @param symbol
-	 * @return
+	 * @param symbol A String symbol
+	 * @return True if the symbol is an assignment operator
 	 */
 	public boolean isAssignment(String symbol)
 	{
@@ -179,9 +184,10 @@ public class Lexer {
 	}
 	
 	/**
+	 * Evaluates if a symbol is an assignment operator
 	 * 
-	 * @param symbol
-	 * @return
+	 * @param symbol A char symbol
+	 * @return True if the symbol is an assignment operator
 	 */
 	public boolean isAssignment(char symbol)
 	{
@@ -193,9 +199,10 @@ public class Lexer {
 	}
 	
 	/**
+	 * Evaluates if a symbol is a decimal
 	 * 
-	 * @param symbol
-	 * @return
+	 * @param symbol A char symbol
+	 * @return True if the symbol is a decimal
 	 */
 	public boolean isDecimal(char symbol)
 	{
@@ -207,9 +214,10 @@ public class Lexer {
 	}
 	
 	/**
+	 * Evaluates if a symbol is an operator
 	 * 
-	 * @param symbol
-	 * @return
+	 * @param symbol A String symbol
+	 * @return True if the symbol is an operator
 	 */
 	public boolean isOperator(String symbol)
 	{
@@ -229,9 +237,10 @@ public class Lexer {
 	}
 	
 	/**
+	 * Evaluates if a symbol is an operator
 	 * 
-	 * @param symbol
-	 * @return
+	 * @param symbol A char symbol
+	 * @return True if the symbol is an operator
 	 */
 	public boolean isOperator(char symbol)
 	{
@@ -249,9 +258,10 @@ public class Lexer {
 	}
 	
 	/**
+	 * Gets the prescedence of an operator
 	 * 
-	 * @param symbol
-	 * @return
+	 * @param symbol A String symbol
+	 * @return An operators prescedence
 	 */
 	public int getPrescedence(String symbol)
 	{
@@ -275,9 +285,10 @@ public class Lexer {
 	}
 	
 	/**
+	 * Evaluates if a symbol is an operand
 	 * 
-	 * @param s
-	 * @return
+	 * @param symbol A String symbol
+	 * @return True if the symbol is an operand
 	 */
 	public boolean isOperand(String s)
 	{

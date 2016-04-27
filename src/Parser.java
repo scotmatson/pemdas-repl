@@ -1,6 +1,14 @@
 /**
+ * A parser that turns tokens into a Syntax Tree
  * 
- * @author Scot
+ * <p>
+ * Current version requires post-fixed ordering of a
+ * tokenized String. From the tokens a Tree is 
+ * constructed from the bottom-up.
+ * 
+ * @author Scot Matson
+ * @version 0.00 Alpha
+ * @since 04/27/2016
  *
  */
 public class Parser
@@ -10,8 +18,9 @@ public class Parser
 	private String storeKey;
 	
 	/**
+	 * Constructor method
 	 * 
-	 * @param tokens
+	 * @param tokens A post-fixed tokenized Queue of Strings
 	 */
 	public Parser(Queue<String> tokens)
 	{
@@ -22,7 +31,7 @@ public class Parser
 	}
 	
 	/**
-	 * 
+	 * Builds a Syntax tree utilizing PEMDAS ordering for arithmetic evaluation
 	 */
 	public void buildTree()
 	{
@@ -54,34 +63,49 @@ public class Parser
 	}
 	
 	/**
+	 *  Creates branch associations for a
+	 *  Syntax Tree
 	 * 
-	 * @param token
+	 * @param token A parent node
 	 */
 	public void buildTree(Node<String> token)
 	{
 		Node<String> op1 = treeBuilder.pop();
 		System.out.println(op1);
+		
 		Node<String> op2 = treeBuilder.pop();
 		System.out.println(op2);
+		
 		token.setLeft(op1);
 		token.setRight(op2);
 		treeBuilder.push(token);
 	}
 	
 	/**
+	 * Returns the root node from the parse tree,
+	 * this is the only one that matters.
 	 * 
-	 * @return
+	 * @return The root node
 	 */
 	public Node<String> getParseTree()
 	{
 		return treeBuilder.pop();
 	}
 	
+	/**
+	 * Returns variables for assigned
+	 * expressions.
+	 * 
+	 * @return An Identifier String
+	 */
 	public String getStoreKey()
 	{
 		return storeKey;
 	}
 	
+	/**
+	 * Resets the locally stored value.
+	 */
 	public void resetStoreKey()
 	{
 		storeKey = null;

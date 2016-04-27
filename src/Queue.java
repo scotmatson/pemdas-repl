@@ -1,4 +1,12 @@
-
+/**
+ * Custom implementation of a Queue data structure
+ * 
+ * @author Scot Matson
+ * @version 0.00 Alpha
+ * @since 04/27/2016
+ * 
+ * @param <T> A generic Type parameter
+ */
 public class Queue<T>
 {
 	Node<T> first;
@@ -46,6 +54,10 @@ public class Queue<T>
 		}
 	}
 	
+	/**
+	 * Removes the first element from the queue
+	 * @return The first element in the queue
+	 */
 	public Node<T> dequeue()
 	{
 		if (!isEmpty())
@@ -60,6 +72,10 @@ public class Queue<T>
 		return null;
 	}
 	
+	/**
+	 * Looks at the first element in the queue
+	 * @return The first element in the queue
+	 */
 	public Node<T> peek()
 	{
 		if (!isEmpty())

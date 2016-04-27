@@ -1,4 +1,12 @@
-
+/**
+ * Custom implementation of a Stack data structure
+ * 
+ * @author Scot Matson
+ * @version 0.00 Alpha
+ * @since 04/27/2016
+ * 
+ * @param <T> A generic Type parameter
+ */
 public class Stack<T> 
 {
 	private Node<T> top;
@@ -37,6 +45,10 @@ public class Stack<T>
 		}
 	}
 	
+	/**
+	 * Retrieves an element from the top of the stack
+	 * @return The top of the stack
+	 */
 	public Node<T> pop()
 	{
 		if (!isEmpty())
@@ -48,6 +60,10 @@ public class Stack<T>
 		return null;
 	}
 	
+	/**
+	 * Looks at the element on the top of the stack
+	 * @return The element at the top of the stack
+	 */
 	public Node<T> peek()
 	{
 		if (!isEmpty())

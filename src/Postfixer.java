@@ -1,10 +1,12 @@
 /**
- * Translates an infixed artihmetic expression into a postfix expression
- * using the Shunting Yard Algorithm.
+ * Translates an in-fixed arithmetic expression into a post-fixed expression
+ * using the Shunting-Yard Algorithm.
  * 
- * Pseudocode can be found at https://en.wikipedia.org/wiki/Shunting-yard_algorithm
- * Runtime complexity is O(n) - Pimpin'
+ * Based upon pseudocode can be found at https://en.wikipedia.org/wiki/Shunting-yard_algorithm
+ * 
  * @author Scot Matson
+ * @version 0.00 Alpha
+ * @since 04/27/2016
  */
 public class Postfixer 
 {
@@ -13,6 +15,10 @@ public class Postfixer
 	private Stack<String> operators;
 	private Queue<String> tokens;
 	
+	/**
+	 * Constructor method
+	 * @param tokens A string of tokens with an in-fixed structure
+	 */
 	public Postfixer(Queue<String> tokens)
 	{
 		lexer = new Lexer();
@@ -22,13 +28,16 @@ public class Postfixer
 		processTokens();
 	}
 	
+	/**
+	 * Converts in-fix notation into post-fix notation
+	 */
 	private void processTokens()
 	{
 		while (!tokens.isEmpty())
 		{
 			if (tokens.peek().getType() == Grammar.OPERAND ||
 				tokens.peek().getType() == Grammar.IDENTIFIER ||
-				tokens.peek().getType() == Grammar.ASSIGNMENT) // Right place for this?
+				tokens.peek().getType() == Grammar.ASSIGNMENT)
 			{
 				output.enqueue(tokens.dequeue());
 			}
@@ -72,14 +81,15 @@ public class Postfixer
 		
 		while (!operators.isEmpty())
 		{
-			// Throws MismatchedParenthesisError
+			//TODO: Throws MismatchedParenthesisError
 			output.enqueue(operators.pop());
 		}
 	}
 	
 	/**
+	 * Gets the post-fixed version of the tokens
 	 * 
-	 * @return
+	 * @return Post-fixed tokenized expression
 	 */
 	public Queue<String> getPostfixed()
 	{
